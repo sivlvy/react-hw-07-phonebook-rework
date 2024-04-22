@@ -23,7 +23,7 @@ export const App = () => {
 	const dispatch = useDispatch();
 	useEffect(() => {
 		dispatch(fetchContacts());
-	}, [dispatch]);
+	}, [dispatch, error]);
 
 	const handleChange = ({ target }) => dispatch(setFilter(target.value));
 
@@ -49,6 +49,7 @@ export const App = () => {
 				<div>
 					<h2 className="font-bold text-center text-xl mb-10">Contacts</h2>
 					<Filter name="filter" onChange={handleChange} />
+
 					{isLoading ? (
 						<Loader />
 					) : error ? (
