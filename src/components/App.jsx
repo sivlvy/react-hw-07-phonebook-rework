@@ -53,7 +53,7 @@ export const App = () => {
 						<Loader />
 					) : error ? (
 						<div message={error}></div>
-					) : items.length > 0 ? (
+					) : items?.length > 0 ? (
 						<ContactsList contacts={items} onDeleteContact={onDeleteContact} />
 					) : (
 						<Error />
