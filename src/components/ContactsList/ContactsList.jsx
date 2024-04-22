@@ -1,10 +1,11 @@
 import React from 'react';
+
 const ContactsList = ({ contacts, onDeleteContact }) => {
 	return (
-		<ul className="mt-10">
-			{contacts.map(({ id, name, phone }) => (
+		<ul className="mt-10 max-h-60 overflow-auto border-2-slate border-slate-600 bg-zinc-200 scrollbar-corner-rounded-xl py-4 px-4 rounded-2xl scrollbar-thumb-custom scrollbar-track-custom-light hover:scrollbar-thumb-[#059669] active:scrollbar-thumb-emerald-500/50   overflow-y-scroll scrollbar-thin  scrollbar-thumb-amber-500">
+			{contacts?.map(({ id, name, phone }) => (
 				<li
-					className="border-2 border-slate-400 w-80 h-16 flex justify-between px-5 items-center bg-gray-200 border-teal-300 mb-2 rounded-lg"
+					className="border-2 border-slate-400 w-80 h-16 flex justify-between px-5 items-center bg-gray-100 border-teal-300 mb-2 rounded-lg"
 					key={id}
 				>
 					<div className="flex flex-col">
@@ -12,7 +13,7 @@ const ContactsList = ({ contacts, onDeleteContact }) => {
 						<span>{phone}</span>
 					</div>
 					<button onClick={() => onDeleteContact(id)}>
-						<svg className="icon icon-delete-1-svgrepo-com w-10 h-10 fill-slate-100 border-2 border-teal-300 hover:border-red-600 hover:bg-red-600  transition-colors duration-500 rounded-md">
+						<svg className="icon icon-delete-1-svgrepo-com w-10 h-10 fill-slate-400 hover:fill-slate-100 border-2 border-teal-300 hover:border-red-600 hover:bg-red-600  transition-colors duration-500 rounded-md">
 							<svg
 								viewBox="0 0 1024 1024"
 								className="icon"

@@ -2,36 +2,35 @@ import ContactForm from './ContactForm/ContactForm';
 import Container from './Container/Container';
 import Filter from './Filter/Filter';
 import ContactsList from './ContactsList/ContactsList';
+import Loader from './Loader/Loader';
+import Error from './Error/Error';
+
 import { useEffect } from 'react';
 import { nanoid } from 'nanoid';
 import { Notify } from 'notiflix';
 import { useSelector, useDispatch } from 'react-redux';
-import { getAllContacts, getFilteredContacts } from '../redux/selectors';
-import { addContact, deleteContact } from '../redux/contacts/contacts-slice';
+
+import { fetchContacts } from '../redux/contacts/contacts-operations';
+import { selectAllContacts, selectFilteredContacts } from '../redux/selectors';
+import {
+	addContact,
+	deleteContact,
+} from '../redux/contacts/contacts-operations';
 import { setFilter } from '../redux/filter/filter-slice';
 
 export const App = () => {
-	const contacts = useSelector(getAllContacts);
-	const filteredContacts = useSelector(getFilteredContacts);
+	const { isLoading, error } = useSelector(selectAllContacts);
+	const items = useSelector(selectFilteredContacts);
 	const dispatch = useDispatch();
-
 	useEffect(() => {
-		localStorage.setItem('contacts', JSON.stringify(contacts));
-	}, [contacts]);
+		dispatch(fetchContacts());
+	}, []);
 
 	const handleChange = ({ target }) => dispatch(setFilter(target.value));
 
-	const formSubmitHandler = data => {
-		const newContact = { id: nanoid(), ...data };
-		const inContacts = contacts.some(
-			({ name }) => name.toLowerCase() === newContact.name.toLowerCase()
-		);
-		if (inContacts) {
-			Notify.failure(`${newContact.name} is already in contacts`);
-			return;
-		}
-		Notify.success(`${newContact.name} was added to contacts`);
-		dispatch(addContact(newContact));
+	const onAddContact = data => {
+		dispatch(addContact(data));
+		Notify.success(`${data.name} has been added to the list!`);
 	};
 
 	const onDeleteContact = contactId => {
@@ -46,15 +45,20 @@ export const App = () => {
 					<h1 className="font-bold text-xl text-center font-mono mb-10">
 						Phonebook
 					</h1>
-					<ContactForm onSubmit={formSubmitHandler} />
+					<ContactForm onSubmit={onAddContact} />
 				</div>
 				<div>
 					<h2 className="font-bold text-center text-xl mb-10">Contacts</h2>
-					<Filter onChange={handleChange} />
-					<ContactsList
-						contacts={filteredContacts}
-						onDeleteContact={onDeleteContact}
-					/>
+					<Filter name="filter" onChange={handleChange} />
+					{isLoading ? (
+						<Loader />
+					) : error ? (
+						<div message={error}></div>
+					) : items.length > 0 ? (
+						<ContactsList contacts={items} onDeleteContact={onDeleteContact} />
+					) : (
+						<Error />
+					)}
 				</div>
 			</div>
 		</Container>
