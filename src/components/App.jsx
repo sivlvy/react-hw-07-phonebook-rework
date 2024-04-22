@@ -6,7 +6,6 @@ import Loader from './Loader/Loader';
 import Error from './Error/Error';
 
 import { useEffect } from 'react';
-import { nanoid } from 'nanoid';
 import { Notify } from 'notiflix';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -24,7 +23,7 @@ export const App = () => {
 	const dispatch = useDispatch();
 	useEffect(() => {
 		dispatch(fetchContacts());
-	}, []);
+	}, [dispatch]);
 
 	const handleChange = ({ target }) => dispatch(setFilter(target.value));
 
