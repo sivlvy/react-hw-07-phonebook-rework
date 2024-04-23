@@ -6,7 +6,6 @@ import Loader from './Loader/Loader';
 import Error from './Error/Error';
 
 import { useEffect } from 'react';
-import { Notify } from 'notiflix';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { fetchContacts } from '../redux/contacts/contacts-operations';
@@ -23,18 +22,16 @@ export const App = () => {
 	const dispatch = useDispatch();
 	useEffect(() => {
 		dispatch(fetchContacts());
-	}, [dispatch, error]);
+	}, []);
 
 	const handleChange = ({ target }) => dispatch(setFilter(target.value));
 
 	const onAddContact = data => {
 		dispatch(addContact(data));
-		Notify.success(`${data.name} has been added to the list!`);
 	};
 
 	const onDeleteContact = contactId => {
 		dispatch(deleteContact(contactId));
-		Notify.success(`Was deleted from contacts`);
 	};
 
 	return (
