@@ -37,10 +37,12 @@ export const App = () => {
 	return (
 		<Container>
 			<div className="flex justify-between">
-				<div>
-					<h1 className="font-bold text-xl text-center font-mono mb-10">
-						Phonebook
-					</h1>
+				<div className="">
+					<div className="w-470">
+						<h1 className="font-bold text-xl text-center font-mono mb-10">
+							Phonebook
+						</h1>
+					</div>
 					<ContactForm onSubmit={onAddContact} />
 				</div>
 				<div>
