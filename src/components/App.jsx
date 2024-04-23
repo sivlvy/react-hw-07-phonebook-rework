@@ -22,7 +22,7 @@ export const App = () => {
 	const dispatch = useDispatch();
 	useEffect(() => {
 		dispatch(fetchContacts());
-	}, []);
+	}, [dispatch]);
 
 	const handleChange = ({ target }) => dispatch(setFilter(target.value));
 
